@@ -1,0 +1,3 @@
+{
+    "databaseConnectionString": "mongodb://mongodb:27017/bicicletasBD"
+}

@@ -1,0 +1,72 @@
+version: '3'
+services:
+  apis:
+    build:
+      context: "./server"
+      dockerfile: Dockerfile
+    volumes:
+      - /app/node_modules
+      - ./server:/app
+    container_name: "APIs"
+    environment:
+      NODE_ENV: development
+      NODE_PATH: /
+      PORT: "8000"
+    expose: 
+      - "8000"
+    ports:
+      - "8000:8000"
+    links:
+      - mongodb
+    depends_on:
+      - mongodb
+  apigeo:
+    build:
+      context: "./serverGeo"
+      dockerfile: Dockerfile
+    volumes:
+      - /app/node_modules
+      - ./serverGeo:/app
+    container_name: "APIGeo"
+    environment:
+      NODE_ENV: development
+      NODE_PATH: /
+      PORT: "8001"
+    expose: 
+      - "8001"
+    ports:
+      - "8001:8001"
+    links:
+      - mongodb
+    depends_on:
+      - mongodb
+  cliente:
+    build:
+      context: "./client"
+      dockerfile: Dockerfile
+    volumes:
+      - /app/node_modules
+      - ./client:/app
+    container_name: "bicicletas"
+    environment:
+      NODE_ENV: development
+      NODE_PATH: /
+      PORT_API: "8000"
+      PORT_APIGEO: "8001"
+      SERV_API: "APIs"
+      SERV_APIGEO: "APIGeo"
+    expose: 
+      - "4001"
+    ports:
+      - "4001:3000"
+    command: "npm start"
+  mongodb:
+    image: mongo:3.4.10
+    container_name: "bicicletas-mongodb"
+    volumes:
+      - bicicletas-mongo-data:/data/db
+    ports:
+      - 27017:27017
+    command: mongod --smallfiles --logpath=/dev/null
+volumes:
+  bicicletas-mongo-data:

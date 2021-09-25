@@ -1,0 +1,19 @@
+{
+  "name": "apis",
+  "version": "1.0.0",
+  "scripts": {
+    "client": "cd client && yarn start",
+    "server": "nodemon server.js",
+    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "html-entities": "^2.3.2",
+    "mongodb": "^4.1.2",
+    "mongodb-uri": "^0.9.7"
+  },
+  "devDependencies": {
+    "concurrently": "^4.0.1"
+  }
+}
